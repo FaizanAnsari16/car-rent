@@ -1,8 +1,24 @@
+import React from 'react';
+import styled from 'styled-components';
+import tw from 'twin.macro';
 import './App.css';
+import { HomePage } from './app/containers/Homepage';
 import './index.css';
 
+const AppContainer = styled.div`
+  ${tw`
+w-full
+h-full
+flex
+flex-col
+`}
+`;
 function App() {
-  return <h1 className="text-3xl font-bold underline">Hello world!</h1>;
+  return (
+    <AppContainer>
+      <HomePage />
+    </AppContainer>
+  );
 }
 
 export default App;
