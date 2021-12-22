@@ -28,6 +28,9 @@ pl-4
 md:pl-0
 md:pr-0
 mb-10
+transition-all
+    duration-200
+    ease-in-out
 `}
 `;
 const Title = styled.h2`
@@ -74,7 +77,7 @@ export function TopCars() {
   };
 
   return (
-    <TopCarsContainer>
+    <TopCarsContainer id="cars">
       <Title>Explore Our Top Deals</Title>
       <CarsContainer>
         <Swiper

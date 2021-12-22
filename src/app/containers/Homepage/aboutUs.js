@@ -19,6 +19,9 @@ const AboutUsContainer = styled.div`
     md:pl-0
     md:pr-0
     bg-white
+    transition-all
+    duration-200
+    ease-in-out
   `};
 `;
 
@@ -79,7 +82,7 @@ const InfoText = styled.p`
 
 export function AboutUs() {
   return (
-    <AboutUsContainer>
+    <AboutUsContainer id="aboutus">
       <CarContainer>
         <img src={JeepImg} alt="jeep" />
       </CarContainer>

@@ -166,10 +166,10 @@ export function TopSection() {
       </LeftContainer>
       <RightContainer>
         <BlobContainer>
-          <img src={BlobImg} />
+          <img src={BlobImg} alt="Blob" />
         </BlobContainer>
         <StandaloneCar>
-          <img src={MclarenCarImg} />
+          <img src={MclarenCarImg} alt="porche" />
         </StandaloneCar>
       </RightContainer>
     </TopSectionContainer>

@@ -19,6 +19,9 @@ pt-3
 pb-3
 lg:pt-6
 lg:pb-6
+transition-all
+    duration-200
+    ease-in-out
 `}
 `;
 
@@ -86,7 +89,7 @@ text-3xl
 `;
 export function BookingSteps() {
   return (
-    <Container>
+    <Container id="services">
       <Title>Our Working Steps</Title>
       <StepsContainer>
         <StepContainer>

@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import tw from 'twin.macro';
-import { Logo } from '../Logo';
+import { Logo } from '../Logo/index.tsx';
 import { NavItems } from './navitems.tsx';
 
 const NavbarContainer = styled.div`
@@ -15,6 +15,9 @@ items-center
 lg:pl-12
 lg:pr-12
 justify-between
+transition-all
+    duration-200
+    ease-in-out
 `}
 `;
 
@@ -22,7 +25,7 @@ const LogoContainer = styled.div``;
 
 export function Navbar() {
   return (
-    <NavbarContainer>
+    <NavbarContainer id="home">
       <LogoContainer>
         <Logo />
       </LogoContainer>
