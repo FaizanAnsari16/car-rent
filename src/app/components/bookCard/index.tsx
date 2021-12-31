@@ -9,17 +9,17 @@ import styled, { css } from "styled-components";
 import tw from "twin.macro";
 import { Button } from "../button/index.tsx";
 import { Marginer } from "../marginer/index.tsx";
-
+import ReactTooltip from "react-tooltip";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import { SCREENS } from "../responsive";
 
 
-const CardContainer = styled.div`
-  min-height: 4.3em;
+const CardContainer = styled.div`  
   box-shadow: 0 1.3px 12px -3px rgba(0, 0, 0, 0.4);
   ${tw`
     flex
+    flex-col
     justify-center
     items-center
     rounded-md
@@ -36,7 +36,7 @@ const CardContainer = styled.div`
 `;
 
 const ItemContainer = styled.div`
-  ${tw`flex relative`};
+  ${tw`flex relative items-center`};
 `;
 
 const Icon = styled.span`
@@ -67,6 +67,9 @@ const Name = styled.span`
     md:text-sm
     cursor-pointer
     select-none
+    flex
+    w-full
+    justify-center
   `};
 `;
 
@@ -109,7 +112,8 @@ export function BookCard() {
   const [isStartCalendarOpen, setStartCalendarOpen] = useState(false);
   const [returnDate, setReturnDate] = useState<Date>(new Date());
   const [isReturnCalendarOpen, setReturnCalendarOpen] = useState(false);
-
+  const [startDateValue, setstartDateValue] = useState(null)
+  const [returnDateValue, setreturnDateValue] = useState(null)
   const toggleStartDateCalendar = () => {
     setStartCalendarOpen(!isStartCalendarOpen);
     if (isReturnCalendarOpen) setReturnCalendarOpen(false);
@@ -120,28 +124,50 @@ export function BookCard() {
     if (isStartCalendarOpen) setStartCalendarOpen(false);
   };
 
-  return (
-    <CardContainer>
+  const startChangeDate=(e)=>{
+    setstartDateValue(e.getMonth()+1+'-'+e.getDate()+'-'+e.getFullYear())
+    setStartDate(e);
+    setReturnDate(e);
+    toggleStartDateCalendar()
+  }
+    const returnChangeDate=(e)=>{
+    setreturnDateValue(e.getMonth()+1+'-'+e.getDate()+'-'+e.getFullYear())
+    setReturnDate(e);
+    toggleReturnDateCalendar()
+  }
+const DateContainer=()=>{
+  return(<>
+      <ItemContainer>
+      <div>
+      {startDateValue?<ItemContainer>
+        <Name >Pick Up Date</Name>
+      </ItemContainer>:null}
       <ItemContainer>
         <Icon>
           <FontAwesomeIcon icon={faCalendarAlt} />
         </Icon>
-        <Name onClick={toggleStartDateCalendar}>Pick Up Date</Name>
+        <Name onClick={toggleStartDateCalendar}>{startDateValue?startDateValue:'Pick Up Date'}</Name>
         <SmallIcon>
           <FontAwesomeIcon
             icon={isStartCalendarOpen ? faCaretUp : faCaretDown}
           />
         </SmallIcon>
         {isStartCalendarOpen && (
-          <DateCalendar value={startDate} onChange={setStartDate as any} />
+          <DateCalendar value={startDate} onChange={startChangeDate as any} minDate={new Date()}
+          maxDate={startDateValue?returnDate:null}
+          />
         )}
       </ItemContainer>
+      </div>
       <LineSeperator />
-      <ItemContainer>
+      <div>{returnDateValue?<ItemContainer>
+        <Name >Return Date</Name>
+      </ItemContainer>:null}
+      <ItemContainer data-for="main" data-tip="Please Select Start Date">
         <Icon>
           <FontAwesomeIcon icon={faCalendarAlt} />
         </Icon>
-        <Name onClick={toggleReturnDateCalendar}>Return Date</Name>
+        <Name onClick={startDateValue?toggleReturnDateCalendar:null}>{returnDateValue?returnDateValue:'Return Date'}</Name>
         <SmallIcon>
           <FontAwesomeIcon
             icon={isReturnCalendarOpen ? faCaretUp : faCaretDown}
@@ -151,12 +177,35 @@ export function BookCard() {
           <DateCalendar
             offset
             value={returnDate}
-            onChange={setReturnDate as any}
+            onChange={returnChangeDate as any}
+            minDate={startDate}
           />
         )}
       </ItemContainer>
-      <Marginer direction="horizontal" margin="2em" />
-      <Button text="Book Your Ride" />
+      </div>
+      <ReactTooltip
+      disable={startDateValue?true:false}
+            id="main"
+            place={"top"}
+            type={"warning"}
+            effect={"float"}
+            multiline={true}
+          />
+          </ItemContainer>
+  </>)
+}
+
+  return (
+    <CardContainer>
+      <Marginer direction="vertical" margin="1em" />
+  <DateContainer/>
+  <Marginer direction="horizontal" margin="2em" />
+      <Marginer direction="vertical" margin="1em" />
+            <Marginer direction="vertical" margin="1em" />
+  <DateContainer/>
+  <Marginer direction="horizontal" margin="2em" />
+      <Marginer direction="vertical" margin="1em" />
+        <Button text="Book Your Ride" />
     </CardContainer>
   );
 }
