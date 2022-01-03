@@ -19,22 +19,27 @@ items-center
 overflow-x-hidden
 `}
 `;
-
+const scroll = () => {
+  document.getElementById('home').scrollTop = 0;
+};
 export function HomePage() {
   return (
-    <PageContainer>
-      <Navbar />
+    <PageContainer id="home">
+      <Navbar scroll={scroll} />
       <TopSection />
-      <Marginer direction="vertical" margin="4em" />
-      <BookCard />
+      <Marginer direction="vertical" margin="15em" />
+      <div id="bookride">
+        <Marginer direction="vertical" margin="7em" />
+        <BookCard />
+      </div>
       <Marginer direction="vertical" margin="10em" />
       <BookingSteps />
       <Marginer direction="vertical" margin="8em" />
       <AboutUs />
-      <Marginer direction="vertical" margin="8em" />
+      <Marginer direction="vertical" margin="15em" />
       <TopCars />
       <Marginer direction="vertical" margin="7em" />
-      <Footer />
+      <Footer scroll={scroll} />
     </PageContainer>
   );
 }

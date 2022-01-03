@@ -3,6 +3,8 @@ import {
   faCalendarAlt,
   faCaretDown,
   faCaretUp,
+  faLevelDownAlt,
+  faLevelUpAlt
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import styled, { css } from "styled-components";
@@ -13,15 +15,25 @@ import ReactTooltip from "react-tooltip";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import { SCREENS } from "../responsive";
+import Select from 'react-select'
+import {createUseStyles} from 'react-jss'
 
+const useStyles = createUseStyles({
+selectdd:{
+  
+  '& .css-1s2u09g-control':
+  {cursor:'pointer'},
+},
+'& .react-calendar':{zIndex:1}
+})
 
 const CardContainer = styled.div`  
   box-shadow: 0 1.3px 12px -3px rgba(0, 0, 0, 0.4);
   ${tw`
     flex
-    flex-col
     justify-center
     items-center
+    flex-col
     rounded-md
     bg-white
     pt-1
@@ -108,6 +120,32 @@ const DateCalendar = styled(Calendar)`
 ` as any;
 
 export function BookCard() {
+  var cityoptions = [
+  { value: 'pune', label: 'Pune' },
+  { value: 'mumbai', label: 'Mumbai' },
+  { value: 'aurangabad', label: 'Aurangabad' },
+  { value: 'akola', label: 'Akola' },
+  { value: 'chennai', label: 'Chennai' }
+]
+  const CardContainers=(props)=>{
+    const classes=useStyles()
+    return(
+    <>
+  <span style={{padding:'5px 10px',borderRadius:'50%',border:'1px solid rgba(255,255,255,1)',boxShadow:'0 1.3px 12px -3px rgb(0 0 0 / 40%)',color:'rgba(239,68,68,1)'}}>
+    <FontAwesomeIcon icon={props.pickup?faLevelDownAlt:faLevelUpAlt}/>
+    </span>
+      <Marginer direction="vertical" margin="0.5em" />
+  <Name>{props.pickup?'Pick Up':'Drop Off'} Info</Name>
+      <Marginer direction="vertical" margin="1em" />
+  <Select options={cityoptions} placeholder="Select Location" className={classes.selectdd}/>
+      <Marginer direction="vertical" margin="1em" />
+  <DateContainer pickup={props.pickup?true:false}/>
+  
+    </>
+    )
+  }
+const DateContainer=(props)=>{
+  const classes=useStyles()
   const [startDate, setStartDate] = useState<Date>(new Date());
   const [isStartCalendarOpen, setStartCalendarOpen] = useState(false);
   const [returnDate, setReturnDate] = useState<Date>(new Date());
@@ -135,18 +173,17 @@ export function BookCard() {
     setReturnDate(e);
     toggleReturnDateCalendar()
   }
-const DateContainer=()=>{
   return(<>
       <ItemContainer>
       <div>
       {startDateValue?<ItemContainer>
-        <Name >Pick Up Date</Name>
+        <Name >{props.pickup?'Pick Up':'Drop Off'} Date</Name>
       </ItemContainer>:null}
       <ItemContainer>
         <Icon>
           <FontAwesomeIcon icon={faCalendarAlt} />
         </Icon>
-        <Name onClick={toggleStartDateCalendar}>{startDateValue?startDateValue:'Pick Up Date'}</Name>
+        <Name onClick={toggleStartDateCalendar}>{startDateValue?startDateValue:props.pickup?'Pick Up Date':'Drop Off Date'}</Name>
         <SmallIcon>
           <FontAwesomeIcon
             icon={isStartCalendarOpen ? faCaretUp : faCaretDown}
@@ -155,19 +192,22 @@ const DateContainer=()=>{
         {isStartCalendarOpen && (
           <DateCalendar value={startDate} onChange={startChangeDate as any} minDate={new Date()}
           maxDate={startDateValue?returnDate:null}
+          className={classes.datepickerclass}
           />
         )}
       </ItemContainer>
       </div>
       <LineSeperator />
       <div>{returnDateValue?<ItemContainer>
-        <Name >Return Date</Name>
+        <Name >{props.pickup?'Pick Up':'Drop Off'} Time</Name>
       </ItemContainer>:null}
-      <ItemContainer data-for="main" data-tip="Please Select Start Date">
+      <ItemContainer data-for="main" 
+      // data-tip="Please Select PickUp Date"
+      >
         <Icon>
           <FontAwesomeIcon icon={faCalendarAlt} />
         </Icon>
-        <Name onClick={startDateValue?toggleReturnDateCalendar:null}>{returnDateValue?returnDateValue:'Return Date'}</Name>
+        <Name onClick={toggleReturnDateCalendar}>{returnDateValue?returnDateValue:props.pickup?'Pick Up Time':'Drop Off Time' }</Name>
         <SmallIcon>
           <FontAwesomeIcon
             icon={isReturnCalendarOpen ? faCaretUp : faCaretDown}
@@ -196,16 +236,13 @@ const DateContainer=()=>{
 }
 
   return (
-    <CardContainer>
-      <Marginer direction="vertical" margin="1em" />
-  <DateContainer/>
-  <Marginer direction="horizontal" margin="2em" />
-      <Marginer direction="vertical" margin="1em" />
-            <Marginer direction="vertical" margin="1em" />
-  <DateContainer/>
+  <CardContainer>
+  <CardContainers pickup/>
+  <Marginer direction="vetical" margin="2em" />
+  <CardContainers />
   <Marginer direction="horizontal" margin="2em" />
       <Marginer direction="vertical" margin="1em" />
         <Button text="Book Your Ride" />
-    </CardContainer>
+        </CardContainer>
   );
 }

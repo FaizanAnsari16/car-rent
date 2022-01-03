@@ -6,8 +6,10 @@ import { NavItems } from './navitems.tsx';
 
 const NavbarContainer = styled.div`
   min-height: 68px;
+  z-index: 2;
   ${tw`
 w-full
+md:fixed
 max-w-screen-2xl
 flex
 flex-row
@@ -23,13 +25,13 @@ transition-all
 
 const LogoContainer = styled.div``;
 
-export function Navbar() {
+export function Navbar(props) {
   return (
-    <NavbarContainer id="home">
-      <LogoContainer>
+    <NavbarContainer>
+      <LogoContainer onClick={props.scroll}>
         <Logo />
       </LogoContainer>
-      <NavItems />
+      <NavItems scroll={props.scroll} />
     </NavbarContainer>
   );
 }

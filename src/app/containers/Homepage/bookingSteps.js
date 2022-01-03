@@ -35,6 +35,7 @@ font-extrabold
 `;
 const StepsContainer = styled.div`
   ${tw`
+  flex-col
 flex
 justify-evenly
 flex-wrap

@@ -148,7 +148,6 @@ const ButtonsContainer = styled.div`
     mt-4
   `};
 `;
-
 export function TopSection() {
   return (
     <TopSectionContainer>
@@ -160,8 +159,10 @@ export function TopSection() {
           you like
         </Description>
         <ButtonsContainer>
-          <Button text="Book Your Ride" />
-          <Button theme="filled" text="Sell Your Car" />
+          <a href="#bookride">
+            <Button text="Book Your Ride" />
+          </a>
+          {/* <Button theme="filled" text="Sell Your Car" /> */}
         </ButtonsContainer>
       </LeftContainer>
       <RightContainer>

@@ -4,7 +4,7 @@ import React from 'react';
 import styled from 'styled-components';
 import tw from 'twin.macro';
 import { Logo } from '../Logo/index.tsx';
-
+import { Marginer } from '../marginer/index.tsx';
 const FooterContainer = styled.div`
   //min-height: 24em;
   background-color: #1d2124;
@@ -156,7 +156,7 @@ const SmallText = styled.h6`
   `};
 `;
 
-export function Footer() {
+export function Footer(props) {
   return (
     <FooterContainer id="contactus">
       <InnerContainer>
@@ -171,8 +171,8 @@ export function Footer() {
         <SectionContainer>
           <HeaderTitle>Our Links</HeaderTitle>
           <LinksList>
-            <ListItem>
-              <a href="#home">Home</a>
+            <ListItem onClick={props.scroll}>
+              <a href=" ">Home</a>
             </ListItem>
             <ListItem>
               <a href="#aboutus">About Us</a>
@@ -227,6 +227,7 @@ export function Footer() {
           </HorizontalContainer>
         </SectionContainer>
       </InnerContainer>
+      <Marginer direction="vertical" margin="20em" />
       <BottomContainer>
         <CopyrightText>
           Copyright &copy; {new Date().getFullYear()} ZamZamcar. All rights

@@ -7,7 +7,7 @@ import { SCREENS } from "../responsive";
 import menuStyles from "./menuStyles";
 
 const ListContainer = styled.ul`
-  ${tw`
+${tw`
     flex
     list-none
   `};
@@ -40,15 +40,15 @@ const NavItem = styled.li<{ menu?: any }>`
     `};
 `;
 
-export function NavItems() {
+export function NavItems(props) {
   const isMobile = useMediaQuery({ maxWidth: SCREENS.sm });
 
   if (isMobile)
     return (
       <Menu right styles={menuStyles}>
         <ListContainer>
-          <NavItem menu>
-            <a href="#home">Home</a>
+          <NavItem menu onClick={props.scroll}>
+            <a href=" ">Home</a>
           </NavItem>
           <NavItem menu>
             <a href="#cars">Cars</a>
@@ -68,8 +68,8 @@ export function NavItems() {
 
   return (
     <ListContainer>
-      <NavItem>
-        <a href="#home">Home</a>
+      <NavItem onClick={props.scroll}>
+        <a href=" ">Home</a>
       </NavItem>
       <NavItem>
         <a href="#cars">Cars</a>
