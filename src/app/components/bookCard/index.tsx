@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, type ElementConfig } from "react";
 import {
   faCalendarAlt,
   faCaretDown,
@@ -12,19 +12,41 @@ import tw from "twin.macro";
 import { Button } from "../button/index.tsx";
 import { Marginer } from "../marginer/index.tsx";
 import ReactTooltip from "react-tooltip";
-import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import { SCREENS } from "../responsive";
-import Select from 'react-select'
+import Select,{components} from 'react-select'
 import {createUseStyles} from 'react-jss'
+import Calendar from "react-calendar";
 
 const useStyles = createUseStyles({
-selectdd:{
-  
+selectdd:{  
   '& .css-1s2u09g-control':
   {cursor:'pointer'},
 },
-'& .react-calendar':{zIndex:1}
+timedd:{
+  color:'rgb(75,85,99)',
+  fontSize:'0.875rem',
+  '& .css-tlfecz-indicatorContainer':{color:'black'},
+  '& .css-14el2xx-placeholder':{color:'darkslategray'},
+    '& .css-1pahdxg-control':
+  {
+    boxShadow:'0 0 0 0 transparent',
+    '&:hover':{borderColor:'transparent'},
+    '&:focus':{borderColor:'transparent'},
+    '&:active':{borderColor:'transparent'},
+    cursor:'pointer',
+borderColor:'transparent',
+'& .css-319lph-ValueContainer':{padding:0,},
+'& .css-1okebmr-indicatorSeparator':{display:'none'}},
+  '& .css-1s2u09g-control':
+  {cursor:'pointer',
+  '&:hover':{borderColor:'transparent'},
+borderColor:'transparent',
+'& .css-319lph-ValueContainer':{padding:0,},
+'& .css-1okebmr-indicatorSeparator':{display:'none'}},
+},
+datepickerclass:
+{'& .react-calendar':{zIndex:1}}
 })
 
 const CardContainer = styled.div`  
@@ -103,6 +125,7 @@ const DateCalendar = styled(Calendar)`
   user-select: none;
   top: 2em;
   left: 0;
+  z-index:1;
   .react-calendar__tile--active{
     background-color:#1087ff;
     color:white;
@@ -119,6 +142,7 @@ const DateCalendar = styled(Calendar)`
   }
 ` as any;
 
+
 export function BookCard() {
   var cityoptions = [
   { value: 'pune', label: 'Pune' },
@@ -127,28 +151,36 @@ export function BookCard() {
   { value: 'akola', label: 'Akola' },
   { value: 'chennai', label: 'Chennai' }
 ]
-  const CardContainers=(props)=>{
-    const classes=useStyles()
-    return(
-    <>
-  <span style={{padding:'5px 10px',borderRadius:'50%',border:'1px solid rgba(255,255,255,1)',boxShadow:'0 1.3px 12px -3px rgb(0 0 0 / 40%)',color:'rgba(239,68,68,1)'}}>
-    <FontAwesomeIcon icon={props.pickup?faLevelDownAlt:faLevelUpAlt}/>
-    </span>
-      <Marginer direction="vertical" margin="0.5em" />
-  <Name>{props.pickup?'Pick Up':'Drop Off'} Info</Name>
-      <Marginer direction="vertical" margin="1em" />
-  <Select options={cityoptions} placeholder="Select Location" className={classes.selectdd}/>
-      <Marginer direction="vertical" margin="1em" />
-  <DateContainer pickup={props.pickup?true:false}/>
-  
-    </>
-    )
-  }
-const DateContainer=(props)=>{
-  const classes=useStyles()
-  const [startDate, setStartDate] = useState<Date>(new Date());
+var timeoptions = [
+  { value: '1:00', label: '1:00' },
+  { value: '2:00', label: '2:00' },
+  { value: '3:00', label: '3:00' },
+  { value: '4:00', label: '4:00' },
+  { value: '5:00', label: '5:00' },
+  { value: '6:00', label: '6:00' },
+  { value: '7:00', label: '7:00' },
+  { value: '8:00', label: '8:00' },
+  { value: '9:00', label: '9:00' },
+  { value: '10:00', label: '10:00' },
+  { value: '11:00', label: '11:00' },
+  { value: '12:00', label: '12:00' },
+  { value: '13:00', label: '13:00' },
+  { value: '14:00', label: '14:00' },
+  { value: '15:00', label: '15:00' },
+  { value: '16:00', label: '16:00' },
+  { value: '17:00', label: '17:00' },
+  { value: '18:00', label: '18:00' },
+  { value: '19:00', label: '19:00' },
+  { value: '20:00', label: '20:00' },
+  { value: '21:00', label: '21:00' },
+  { value: '22:00', label: '22:00' },
+  { value: '23:00', label: '23:00' },
+  { value: '24:00', label: '24:00' },
+]
+
+const [startDate, setStartDate] = useState<Date>(new Date());
   const [isStartCalendarOpen, setStartCalendarOpen] = useState(false);
-  const [returnDate, setReturnDate] = useState<Date>(new Date());
+  const [returnDate, setReturnDate] = useState('10:00');
   const [isReturnCalendarOpen, setReturnCalendarOpen] = useState(false);
   const [startDateValue, setstartDateValue] = useState(null)
   const [returnDateValue, setreturnDateValue] = useState(null)
@@ -168,22 +200,48 @@ const DateContainer=(props)=>{
     setReturnDate(e);
     toggleStartDateCalendar()
   }
-    const returnChangeDate=(e)=>{
+  const returnChangeDate=(e)=>{
     setreturnDateValue(e.getMonth()+1+'-'+e.getDate()+'-'+e.getFullYear())
+    setStartDate(e);
     setReturnDate(e);
     toggleReturnDateCalendar()
   }
-  return(<>
+  const DropdownIndicator = (
+  props: ElementConfig<typeof components.DropdownIndicator>
+) => {
+  return (
+    <components.DropdownIndicator {...props}>
+              <FontAwesomeIcon
+            icon={props.selectProps.menuIsOpen ? faCaretUp : faCaretDown}
+          />
+    </components.DropdownIndicator>
+  );
+};
+ 
+const classes=useStyles()
+  return (
+  <CardContainer>
+<>
+  <span style={{padding:'5px 10px',borderRadius:'50%',border:'1px solid rgba(255,255,255,1)',boxShadow:'0 1.3px 12px -3px rgb(0 0 0 / 40%)',color:'rgba(239,68,68,1)'}}>
+    <FontAwesomeIcon icon={faLevelDownAlt}/>
+    </span>
+      <Marginer direction="vertical" margin="0.5em" />
+  <Name>{'Pick Up'} Info</Name>
+      <Marginer direction="vertical" margin="1em" />
+  <Select options={cityoptions} placeholder="Select Location" className={classes.selectdd}/>
+      <Marginer direction="vertical" margin="1em" />
+  {/* <DateContainer pickup={props.pickup?true:false}/> */}
+  <>
       <ItemContainer>
       <div>
       {startDateValue?<ItemContainer>
-        <Name >{props.pickup?'Pick Up':'Drop Off'} Date</Name>
+        <Name >{'Pick Up'} Date</Name>
       </ItemContainer>:null}
       <ItemContainer>
         <Icon>
           <FontAwesomeIcon icon={faCalendarAlt} />
         </Icon>
-        <Name onClick={toggleStartDateCalendar}>{startDateValue?startDateValue:props.pickup?'Pick Up Date':'Drop Off Date'}</Name>
+        <Name onClick={toggleStartDateCalendar}>{startDateValue?startDateValue:'Pick Up Date'}</Name>
         <SmallIcon>
           <FontAwesomeIcon
             icon={isStartCalendarOpen ? faCaretUp : faCaretDown}
@@ -191,15 +249,17 @@ const DateContainer=(props)=>{
         </SmallIcon>
         {isStartCalendarOpen && (
           <DateCalendar value={startDate} onChange={startChangeDate as any} minDate={new Date()}
-          maxDate={startDateValue?returnDate:null}
+          maxDate={returnDate}
           className={classes.datepickerclass}
+              showTimeSelect
+
           />
         )}
       </ItemContainer>
       </div>
       <LineSeperator />
       <div>{returnDateValue?<ItemContainer>
-        <Name >{props.pickup?'Pick Up':'Drop Off'} Time</Name>
+        <Name >{'Pick Up'} Time</Name>
       </ItemContainer>:null}
       <ItemContainer data-for="main" 
       // data-tip="Please Select PickUp Date"
@@ -207,20 +267,9 @@ const DateContainer=(props)=>{
         <Icon>
           <FontAwesomeIcon icon={faCalendarAlt} />
         </Icon>
-        <Name onClick={toggleReturnDateCalendar}>{returnDateValue?returnDateValue:props.pickup?'Pick Up Time':'Drop Off Time' }</Name>
-        <SmallIcon>
-          <FontAwesomeIcon
-            icon={isReturnCalendarOpen ? faCaretUp : faCaretDown}
+          <Select options={timeoptions} placeholder={returnDateValue?returnDateValue:'Pick Up Time' } className={classes.timedd}
+              components={{ DropdownIndicator }}
           />
-        </SmallIcon>
-        {isReturnCalendarOpen && (
-          <DateCalendar
-            offset
-            value={returnDate}
-            onChange={returnChangeDate as any}
-            minDate={startDate}
-          />
-        )}
       </ItemContainer>
       </div>
       <ReactTooltip
@@ -232,14 +281,69 @@ const DateContainer=(props)=>{
             multiline={true}
           />
           </ItemContainer>
-  </>)
-}
-
-  return (
-  <CardContainer>
-  <CardContainers pickup/>
+  </>
+    </>
   <Marginer direction="vetical" margin="2em" />
-  <CardContainers />
+  <>
+  <span style={{padding:'5px 10px',borderRadius:'50%',border:'1px solid rgba(255,255,255,1)',boxShadow:'0 1.3px 12px -3px rgb(0 0 0 / 40%)',color:'rgba(239,68,68,1)'}}>
+    <FontAwesomeIcon icon={faLevelUpAlt}/>
+    </span>
+      <Marginer direction="vertical" margin="0.5em" />
+  <Name>{'Drop Off'} Info</Name>
+      <Marginer direction="vertical" margin="1em" />
+  <Select options={cityoptions} placeholder="Select Location" className={classes.selectdd}/>
+      <Marginer direction="vertical" margin="1em" />
+  {/* <DateContainer pickup={props.pickup?true:false}/> */}
+  <>
+      <ItemContainer>
+      <div>
+      {startDateValue?<ItemContainer>
+        <Name >{'Drop Off'} Date</Name>
+      </ItemContainer>:null}
+      <ItemContainer>
+        <Icon>
+          <FontAwesomeIcon icon={faCalendarAlt} />
+        </Icon>
+        <Name onClick={toggleStartDateCalendar}>{startDateValue?startDateValue:'Drop Off Date'}</Name>
+        <SmallIcon>
+          <FontAwesomeIcon
+            icon={isStartCalendarOpen ? faCaretUp : faCaretDown}
+          />
+        </SmallIcon>
+        {isStartCalendarOpen && (
+          <DateCalendar value={returnDate} onChange={returnChangeDate as any} minDate={startDate}
+          // maxDate={startDateValue?returnDate:null}
+          className={classes.datepickerclass}
+          />
+        )}
+      </ItemContainer>
+      </div>
+      <LineSeperator />
+      <div>{returnDateValue?<ItemContainer>
+        <Name >{'Drop Off'} Time</Name>
+      </ItemContainer>:null}
+      <ItemContainer data-for="main" 
+      // data-tip="Please Select PickUp Date"
+      >
+        <Icon>
+          <FontAwesomeIcon icon={faCalendarAlt} />
+        </Icon>
+          <Select options={timeoptions} placeholder={returnDateValue?returnDateValue:'Drop Off Time' } className={classes.timedd}
+              components={{ DropdownIndicator }}
+          />
+      </ItemContainer>
+      </div>
+      <ReactTooltip
+      disable={startDateValue?true:false}
+            id="main"
+            place={"top"}
+            type={"warning"}
+            effect={"float"}
+            multiline={true}
+          />
+          </ItemContainer>
+  </>
+    </>
   <Marginer direction="horizontal" margin="2em" />
       <Marginer direction="vertical" margin="1em" />
         <Button text="Book Your Ride" />
