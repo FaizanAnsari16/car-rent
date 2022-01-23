@@ -1,4 +1,4 @@
-import React, { useState, type ElementConfig } from "react";
+import React, { useState,useEffect, type ElementConfig } from "react";
 import {
   faCalendarAlt,
   faCaretDown,
@@ -17,6 +17,7 @@ import { SCREENS } from "../responsive";
 import Select,{components} from 'react-select'
 import {createUseStyles} from 'react-jss'
 import Calendar from "react-calendar";
+import { useNavigate } from "react-router-dom";
 
 const useStyles = createUseStyles({
 selectdd:{  
@@ -35,7 +36,7 @@ timedd:{
     '&:focus':{borderColor:'transparent'},
     '&:active':{borderColor:'transparent'},
     cursor:'pointer',
-borderColor:'transparent',
+borderColor:'ransparent',
 '& .css-319lph-ValueContainer':{padding:0,},
 '& .css-1okebmr-indicatorSeparator':{display:'none'}},
   '& .css-1s2u09g-control':
@@ -143,7 +144,7 @@ const DateCalendar = styled(Calendar)`
 ` as any;
 
 
-export function BookCard() {
+export function BookCard(props) {
   var cityoptions = [
   { value: 'pune', label: 'Pune' },
   { value: 'mumbai', label: 'Mumbai' },
@@ -152,38 +153,42 @@ export function BookCard() {
   { value: 'chennai', label: 'Chennai' }
 ]
 var timeoptions = [
-  { value: '1:00', label: '1:00' },
-  { value: '2:00', label: '2:00' },
-  { value: '3:00', label: '3:00' },
-  { value: '4:00', label: '4:00' },
-  { value: '5:00', label: '5:00' },
-  { value: '6:00', label: '6:00' },
-  { value: '7:00', label: '7:00' },
-  { value: '8:00', label: '8:00' },
-  { value: '9:00', label: '9:00' },
-  { value: '10:00', label: '10:00' },
-  { value: '11:00', label: '11:00' },
-  { value: '12:00', label: '12:00' },
-  { value: '13:00', label: '13:00' },
-  { value: '14:00', label: '14:00' },
-  { value: '15:00', label: '15:00' },
-  { value: '16:00', label: '16:00' },
-  { value: '17:00', label: '17:00' },
-  { value: '18:00', label: '18:00' },
-  { value: '19:00', label: '19:00' },
-  { value: '20:00', label: '20:00' },
-  { value: '21:00', label: '21:00' },
-  { value: '22:00', label: '22:00' },
-  { value: '23:00', label: '23:00' },
-  { value: '24:00', label: '24:00' },
+  { value: 1, label: '1:00' },
+  { value: 2, label: '2:00' },
+  { value: 3, label: '3:00' },
+  { value: 4, label: '4:00' },
+  { value: 5, label: '5:00' },
+  { value: 6, label: '6:00' },
+  { value: 7, label: '7:00' },
+  { value: 8, label: '8:00' },
+  { value: 9, label: '9:00' },
+  { value: 10, label: '10:00' },
+  { value: 11, label: '11:00' },
+  { value: 12, label: '12:00' },
+  { value: 13, label: '13:00' },
+  { value: 14, label: '14:00' },
+  { value: 15, label: '15:00' },
+  { value: 16, label: '16:00' },
+  { value: 17, label: '17:00' },
+  { value: 18, label: '18:00' },
+  { value: 19, label: '19:00' },
+  { value: 20, label: '20:00' },
+  { value: 21, label: '21:00' },
+  { value: 22, label: '22:00' },
+  { value: 23, label: '23:00' },
+  { value: 24, label: '24:00' },
 ]
-
-const [startDate, setStartDate] = useState<Date>(new Date());
+const navigate=useNavigate()
+  const [startDate, setStartDate] = useState(new Date());
   const [isStartCalendarOpen, setStartCalendarOpen] = useState(false);
-  const [returnDate, setReturnDate] = useState('10:00');
-  const [isReturnCalendarOpen, setReturnCalendarOpen] = useState(false);
+  const [returnDate, setReturnDate] = useState(new Date());
   const [startDateValue, setstartDateValue] = useState(null)
   const [returnDateValue, setreturnDateValue] = useState(null)
+  const [startTime, setStartTime] = useState(Number);
+  const [isReturnCalendarOpen, setReturnCalendarOpen] = useState(false);
+  const [returnTime, setReturnTime] = useState(Number);
+  const [startTimeValue, setstartTimeValue] = useState(null)
+  const [returnTimeValue, setreturnTimeValue] = useState(null)
   const toggleStartDateCalendar = () => {
     setStartCalendarOpen(!isStartCalendarOpen);
     if (isReturnCalendarOpen) setReturnCalendarOpen(false);
@@ -218,6 +223,18 @@ const [startDate, setStartDate] = useState<Date>(new Date());
   );
 };
  
+const clickfn=()=>{
+  if(startDateValue&&returnDateValue&&startTime&&returnTime&&props.picklocation&&props.droplocation){
+    props.setstartdate(startDateValue)
+    props.setenddate(returnDateValue)
+    props.setstarttime(startTime)
+    props.setendtime(returnTime)
+    navigate('booking')
+  }
+  else     alert('please fill all fields')
+  
+}
+
 const classes=useStyles()
   return (
   <CardContainer>
@@ -228,7 +245,10 @@ const classes=useStyles()
       <Marginer direction="vertical" margin="0.5em" />
   <Name>{'Pick Up'} Info</Name>
       <Marginer direction="vertical" margin="1em" />
-  <Select options={cityoptions} placeholder="Select Location" className={classes.selectdd}/>
+  <Select options={cityoptions} 
+  placeholder="Select Location" className={classes.selectdd}
+  onChange={(e)=>props.setpicklocation(e.value)}
+  />
       <Marginer direction="vertical" margin="1em" />
   {/* <DateContainer pickup={props.pickup?true:false}/> */}
   <>
@@ -249,7 +269,8 @@ const classes=useStyles()
         </SmallIcon>
         {isStartCalendarOpen && (
           <DateCalendar value={startDate} onChange={startChangeDate as any} minDate={new Date()}
-          maxDate={returnDate}
+          maxDate={returnDateValue?returnDate:null}
+          // maxDate={returnDate}
           className={classes.datepickerclass}
               showTimeSelect
 
@@ -258,7 +279,7 @@ const classes=useStyles()
       </ItemContainer>
       </div>
       <LineSeperator />
-      <div>{returnDateValue?<ItemContainer>
+      <div>{startTimeValue?<ItemContainer>
         <Name >{'Pick Up'} Time</Name>
       </ItemContainer>:null}
       <ItemContainer data-for="main" 
@@ -267,8 +288,9 @@ const classes=useStyles()
         <Icon>
           <FontAwesomeIcon icon={faCalendarAlt} />
         </Icon>
-          <Select options={timeoptions} placeholder={returnDateValue?returnDateValue:'Pick Up Time' } className={classes.timedd}
+          <Select options={returnTime?timeoptions.filter((i)=>i.value<returnTime):timeoptions} placeholder={startTimeValue?startTimeValue:'Pick Up Time' } className={classes.timedd}
               components={{ DropdownIndicator }}
+              onChange={(e)=>setStartTime(e.value)}
           />
       </ItemContainer>
       </div>
@@ -291,26 +313,28 @@ const classes=useStyles()
       <Marginer direction="vertical" margin="0.5em" />
   <Name>{'Drop Off'} Info</Name>
       <Marginer direction="vertical" margin="1em" />
-  <Select options={cityoptions} placeholder="Select Location" className={classes.selectdd}/>
+  <Select options={cityoptions}
+  onChange={(e)=>props.setdroplocation(e.value)}
+  placeholder="Select Location" className={classes.selectdd}/>
       <Marginer direction="vertical" margin="1em" />
   {/* <DateContainer pickup={props.pickup?true:false}/> */}
   <>
       <ItemContainer>
       <div>
-      {startDateValue?<ItemContainer>
+      {returnDateValue?<ItemContainer>
         <Name >{'Drop Off'} Date</Name>
       </ItemContainer>:null}
       <ItemContainer>
         <Icon>
           <FontAwesomeIcon icon={faCalendarAlt} />
         </Icon>
-        <Name onClick={toggleStartDateCalendar}>{startDateValue?startDateValue:'Drop Off Date'}</Name>
+        <Name onClick={toggleReturnDateCalendar}>{returnDateValue?returnDateValue:'Drop Off Date'}</Name>
         <SmallIcon>
           <FontAwesomeIcon
-            icon={isStartCalendarOpen ? faCaretUp : faCaretDown}
+            icon={isReturnCalendarOpen ? faCaretUp : faCaretDown}
           />
         </SmallIcon>
-        {isStartCalendarOpen && (
+        {isReturnCalendarOpen && (
           <DateCalendar value={returnDate} onChange={returnChangeDate as any} minDate={startDate}
           // maxDate={startDateValue?returnDate:null}
           className={classes.datepickerclass}
@@ -319,7 +343,7 @@ const classes=useStyles()
       </ItemContainer>
       </div>
       <LineSeperator />
-      <div>{returnDateValue?<ItemContainer>
+      <div>{returnTimeValue?<ItemContainer>
         <Name >{'Drop Off'} Time</Name>
       </ItemContainer>:null}
       <ItemContainer data-for="main" 
@@ -328,8 +352,10 @@ const classes=useStyles()
         <Icon>
           <FontAwesomeIcon icon={faCalendarAlt} />
         </Icon>
-          <Select options={timeoptions} placeholder={returnDateValue?returnDateValue:'Drop Off Time' } className={classes.timedd}
+          
+          <Select options={timeoptions.filter((i)=>i.value>startTime)} placeholder={returnTimeValue?returnTimeValue:'Drop Off Time' } className={classes.timedd}
               components={{ DropdownIndicator }}
+              onChange={(e)=>setReturnTime(e.value)}
           />
       </ItemContainer>
       </div>
@@ -346,7 +372,9 @@ const classes=useStyles()
     </>
   <Marginer direction="horizontal" margin="2em" />
       <Marginer direction="vertical" margin="1em" />
-        <Button text="Book Your Ride" />
+        <Button text="Book Your Ride" 
+        clickbtn={clickfn}
+        />
         </CardContainer>
   );
 }

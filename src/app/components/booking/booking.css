@@ -1,0 +1,14 @@
+.headerrow{
+    background:rgb(239,68,68);
+    color:#fff
+}
+table{
+    border: 1px solid;
+}
+tbody{
+    border: 1px solid;
+    /* border-top:0; */
+}
+td{
+    padding: 10px;
+}

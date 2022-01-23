@@ -1,4 +1,5 @@
 import React from 'react';
+import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import tw from 'twin.macro';
 import { Logo } from '../Logo/index.tsx';
@@ -26,12 +27,13 @@ transition-all
 const LogoContainer = styled.div``;
 
 export function Navbar(props) {
+  const location=useLocation()
   return (
     <NavbarContainer>
       <LogoContainer onClick={props.scroll}>
         <Logo />
       </LogoContainer>
-      <NavItems scroll={props.scroll} />
+      {!location.pathname.includes('booking')&&<NavItems scroll={props.scroll} />}
     </NavbarContainer>
   );
 }
