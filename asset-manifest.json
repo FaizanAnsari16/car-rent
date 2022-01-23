@@ -1,18 +1,18 @@
 {
   "files": {
     "main.css": "/car-rent/static/css/main.75b16e3a.css",
-    "main.js": "/car-rent/static/js/main.796b034f.js",
+    "main.js": "/car-rent/static/js/main.9272652d.js",
     "static/js/787.828541c7.chunk.js": "/car-rent/static/js/787.828541c7.chunk.js",
     "static/media/jeep.png": "/car-rent/static/media/jeep.18461d13eb608d076dda.png",
     "static/media/mclaren-orange-big.png": "/car-rent/static/media/mclaren-orange-big.46e3c615f2d4c2513ce5.png",
     "index.html": "/car-rent/index.html",
     "static/media/blob.svg": "/car-rent/static/media/blob.1e0bff3a3abf52dbf26af519c7a12408.svg",
     "main.75b16e3a.css.map": "/car-rent/static/css/main.75b16e3a.css.map",
-    "main.796b034f.js.map": "/car-rent/static/js/main.796b034f.js.map",
+    "main.9272652d.js.map": "/car-rent/static/js/main.9272652d.js.map",
     "787.828541c7.chunk.js.map": "/car-rent/static/js/787.828541c7.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.75b16e3a.css",
-    "static/js/main.796b034f.js"
+    "static/js/main.9272652d.js"
   ]
 }
