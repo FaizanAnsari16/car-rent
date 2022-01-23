@@ -14,7 +14,7 @@ export default function App() {
   const [droplocation, setdroplocation] = useState();
   return (
     <Routes>
-      <Route path="/" element={<HomePage 
+      <Route path="/car-rent" element={<HomePage 
       startdate={startdate}
       enddate={enddate}
       starttime={starttime}
