@@ -28,7 +28,7 @@ export default function App() {
       setpicklocation={setpicklocation}
       setdroplocation={setdroplocation}
       />} />
-      <Route path="/booking" element={(<><Navbar/><Booking
+      <Route path="/car-rent/booking" element={(<><Navbar/><Booking
       startdate={startdate}
       enddate={enddate}
       starttime={starttime}
