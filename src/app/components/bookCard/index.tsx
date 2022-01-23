@@ -107,7 +107,14 @@ const Name = styled.span`
     justify-center
   `};
 `;
-
+const Title = styled.h2`
+  ${tw`
+text-3xl
+lg:text-5xl
+text-black
+font-extrabold
+`}
+`;
 const LineSeperator = styled.span`
   width: 2px;
   height: 45%;
@@ -237,6 +244,9 @@ const clickfn=()=>{
 
 const classes=useStyles()
   return (
+    <>
+    <Title>Booking Section</Title>
+    <Marginer direction="vertical" margin="2em" />
   <CardContainer>
 <>
   <span style={{padding:'5px 10px',borderRadius:'50%',border:'1px solid rgba(255,255,255,1)',boxShadow:'0 1.3px 12px -3px rgb(0 0 0 / 40%)',color:'rgba(239,68,68,1)'}}>
@@ -376,5 +386,6 @@ const classes=useStyles()
         clickbtn={clickfn}
         />
         </CardContainer>
+</>
   );
 }
